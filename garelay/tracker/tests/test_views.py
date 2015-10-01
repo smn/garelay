@@ -33,6 +33,8 @@ class ViewsTest(TestCase):
         })
         self.client.get(path)
         [event] = TrackingEvent.objects.all()
+        self.assertTrue(event.uuid)
+        self.assertEqual(event.source, 'tracker')
         self.assertEqual(event.tracking_id, 'UA-F00-1')
         self.assertEqual(event.client_id, self.client.session['tracker_uuid'])
         self.assertEqual(event.user_agent, 'The Agent')

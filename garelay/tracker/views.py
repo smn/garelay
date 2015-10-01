@@ -26,6 +26,7 @@ def tracker(request, tracking_id, path):
     }
     data.update(request.GET)
     TrackingEvent.objects.create(
+        source='tracker',
         tracking_id=tracking_id,
         client_id=client_id,
         user_agent=request.META.get('HTTP_USER_AGENT') or '',
