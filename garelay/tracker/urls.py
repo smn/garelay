@@ -5,5 +5,5 @@ from .views import tracker
 
 urlpatterns = patterns(
     '',
-    url(r'^tracker\.gif', tracker),
+    url(r'^tracker\.gif', tracker, name='tracker'),
 )
