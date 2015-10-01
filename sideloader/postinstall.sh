@@ -1,7 +1,7 @@
-cd "${INSTALLDIR}/${NAME}/garelay/"
-manage="${VENV}/bin/python ${INSTALLDIR}/${NAME}/garelay/manage.py"
+cd "${INSTALLDIR}/${NAME}/"
+manage="${VENV}/bin/python ${INSTALLDIR}/${NAME}/manage.py"
 
-$manage migrate --settings=garelay.settings.production
+$manage migrate --noinput --settings=garelay.settings.production
 
 # process static files
 $manage compress --settings=garelay.settings.production

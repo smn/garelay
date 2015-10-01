@@ -14,7 +14,7 @@ install:
   - pip install -e . --cache-dir $HOME/.pip-cache/
 script:
   - flake8 garelay
-  - py.test --ds=project.settings --verbose --cov garelay garelay
+  - py.test --verbose --cov garelay garelay
 after_success:
   - coveralls
 deploy:

@@ -1,5 +1,5 @@
-buildscript: garelay/sideloader/build.sh
-postinstall: garelay/sideloader/postinstall.sh
+buildscript: sideloader/build.sh
+postinstall: sideloader/postinstall.sh
 pip:
   - gunicorn
   - psycopg2
