@@ -5,5 +5,6 @@ from .views import tracker
 
 urlpatterns = patterns(
     '',
-    url(r'^tracker\.gif', tracker, name='tracker'),
+    url(r'^(?P<tracking_id>[A-Za-z0-9\-]+)/(?P<path>.*)/?tracker\.gif',
+        tracker, name='tracker'),
 )
