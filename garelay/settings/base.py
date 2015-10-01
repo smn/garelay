@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'garelay',
+    'garelay.tracker',
 
     'raven.contrib.django.raven_compat',
 )
