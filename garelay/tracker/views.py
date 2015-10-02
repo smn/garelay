@@ -26,7 +26,7 @@ def tracker(request, tracking_id, path):
         'ul': request.META.get('HTTP_ACCEPT_LANGUAGE') or '',
     }
     data.update(request.GET)
-    event = TrackingEvent.objects.create(
+    TrackingEvent.objects.create(
         tracking_id=tracking_id,
         client_id=client_id,
         user_agent=request.META.get('HTTP_USER_AGENT') or '',

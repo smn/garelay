@@ -13,8 +13,6 @@ def server(request):
     except ValueError:
         return HttpResponseBadRequest()
 
-    print tracking_events
-
     response = []
     for tracking_event in tracking_events:
         record, _ = TrackingEvent.objects.get_or_create(
