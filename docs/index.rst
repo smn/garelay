@@ -22,7 +22,7 @@ Embedding Directly
 ------------------
 ::
 
-   <img src="http://local-ga-relay-host/tracker-<GA-TRACKING-CODE>.gif?dp=/mycurrent/page.html">
+   <img src="http://garelay/tracker-<GA-TRACKING-CODE>.gif?dp=/mycurrent/page.html">
 
 GARelay will automatically include the following parameters:
 
@@ -52,7 +52,7 @@ If you URL is ``http://www.example.com/mypage/hello/`` and you embed the img tag
 a ``dp`` (document path) value of ``mypage/hello/`` since the pixel is retrieved
 from the URL::
 
-  http://local-ga-relay-host/mypage/hello/tracker-<GA-TRACKING-CODE>.gif
+  http://garelay/mypage/hello/tracker-<GA-TRACKING-CODE>.gif
 
 Which sets the ``dp`` parameter.
 
