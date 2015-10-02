@@ -93,6 +93,9 @@ CELERYBEAT_SCHEDULE = {
         'schedule': timedelta(minutes=1),
     },
 }
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
 # GARELAY stuff
 GARELAY_SERVER = 'http://www.example.org/server'
