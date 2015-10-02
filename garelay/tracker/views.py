@@ -33,5 +33,4 @@ def tracker(request, tracking_id, path):
         data=json.dumps(data),
         captured_at=timezone.now(),
         status='captured')
-    print event.to_dict()
     return HttpResponse(PIXEL_GIF_DATA, content_type='image/gif')
