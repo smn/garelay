@@ -1,6 +1,6 @@
 FROM python:2.7
 MAINTAINER Praekelt Foundation <dev@praekeltfoundation.org>
-RUN pip install garelay==0.1.2
+RUN pip install garelay==0.1.3
 RUN pip install gunicorn
 RUN pip install supervisor
 RUN apt-get update
