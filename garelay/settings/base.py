@@ -41,6 +41,7 @@ INSTALLED_APPS = (
 
     'garelay',
     'garelay.tracker',
+    'garelay.server',
 
     'raven.contrib.django.raven_compat',
 )
