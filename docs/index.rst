@@ -18,8 +18,8 @@ Google Analytics.
 This works using a embedding a 1x1 pixel GIF image::
 
   +-------------+
-  | Offline     |
-  | Phone       |
+  | Wifi Phone  |
+  | / Client    |
   +-------------+
       |
     Local HTTP request
