@@ -26,11 +26,12 @@ def tracker(request, tracking_id, path):
         'ul': request.META.get('HTTP_ACCEPT_LANGUAGE') or '',
     }
     data.update(request.GET)
-    TrackingEvent.objects.create(
+    event = TrackingEvent.objects.create(
         tracking_id=tracking_id,
         client_id=client_id,
         user_agent=request.META.get('HTTP_USER_AGENT') or '',
         data=json.dumps(data),
         captured_at=timezone.now(),
         status='captured')
+    print event.to_dict()
     return HttpResponse(PIXEL_GIF_DATA, content_type='image/gif')

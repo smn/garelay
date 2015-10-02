@@ -16,7 +16,7 @@ class TrackingEvent(models.Model):
     tracking_id = models.CharField(max_length=255)
     client_id = models.CharField(max_length=255)
     user_agent = models.TextField()
-    data = models.TextField()
+    data = models.TextField(default='{}')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     captured_at = models.DateTimeField(null=True)
@@ -41,16 +41,18 @@ class TrackingEvent(models.Model):
         self.registered_at = data['registered_at']
 
     def to_dict(self):
-        return dict(
+        payload = dict(
             (field.name, getattr(self, field.name))
             for field in self._meta.fields
             if field.name not in ['id', 'status'])
+        payload['data'] = json.loads(payload['data'])
+        return payload
 
     def register(self):
         tracker = Tracker.create(self.tracking_id,
                                  client_id=self.client_id,
                                  user_agent=self.user_agent)
-        data = json.loads(self.data)
+        payload = json.loads(self.data)
 
         # back date
         delta = timezone.now() - self.captured_at
@@ -58,9 +60,10 @@ class TrackingEvent(models.Model):
             logging.warning('Queue time exceeds 4 hours, '
                             'may be ignored by Google Analytics.')
 
-        data['qt'] = delta.total_seconds() * 1000  # GA requires milliseconds
+        # GA requires milliseconds
+        payload['qt'] = delta.total_seconds() * 1000
 
-        tracker.send('pageview', data)
+        tracker.send('pageview', payload)
         self.registered_at = timezone.now()
         self.status = 'registered'
 
