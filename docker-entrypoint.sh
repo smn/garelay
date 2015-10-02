@@ -5,7 +5,7 @@ set -e
 echo "=> Creating database"
 mkdir -p /garelay && \
     cd /garelay && \
-    django-admin migrate --no-input --settings=garelay.settings.production
+    django-admin migrate --noinput --settings=garelay.settings.production
 
 # Create main Supervisord config file
 echo "=> Creating supervisord config"
