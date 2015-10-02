@@ -10,4 +10,3 @@ ENV GARELAY_PORT 8000
 ENV GARELAY_SERVER http://www.example.com/server/
 EXPOSE 8000
 ENTRYPOINT ["./docker-entrypoint.sh"]
-CMD ["--help"]
