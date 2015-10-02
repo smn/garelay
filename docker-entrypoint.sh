@@ -69,8 +69,8 @@ directory = /garelay
 redirect_stderr = true
 EOM
 
-echo "=> Reloading Supervisord"
-supervisorctl reload
+echo "=> Restarting Supervisord"
+/etc/init.d/supervisor restart
 
 echo "=> Tailing logs"
 multitail --mergeall --basename -f /var/log/supervisor/*.log
