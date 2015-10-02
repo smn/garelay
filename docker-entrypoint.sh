@@ -7,9 +7,14 @@ mkdir -p /garelay && \
     cd /garelay && \
     django-admin migrate --noinput --settings=garelay.settings.production
 
+
 # Create main Supervisord config file
 echo "=> Creating supervisord config"
-cat > /etc/supervisor/supervisord.conf <<-EOM
+
+mkdir -p /etc/supervisor/conf.d/ && \
+    mkdir -p /var/log/supervisor && \
+
+cat > /etc/supervisord.conf <<-EOM
 ; supervisor config file
 
 [unix_http_server]
@@ -69,8 +74,8 @@ directory = /garelay
 redirect_stderr = true
 EOM
 
-echo "=> Restarting Supervisord"
-/etc/init.d/supervisor restart
+echo "=> Starting Supervisord"
+supervisord -c /etc/supervisord.conf
 
 echo "=> Tailing logs"
 multitail --mergeall --basename -f /var/log/supervisor/*.log

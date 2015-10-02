@@ -8,6 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
+import os.environ
 from datetime import timedelta
 from os.path import abspath, dirname, join
 from django.conf import global_settings
@@ -87,12 +88,20 @@ DATABASES = {'default': dj_database_url.config(
 # CELERY stuff
 BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-CELERYBEAT_SCHEDULE = {
-    'register-events': {
+CELERYBEAT_SCHEDULE = {}
+
+if not os.environ.get('GARELAY_NO_TRACKER'):
+    CELERYBEAT_SCHEDULE['relay-events'] = {
+        'task': 'garelay.tracker.tasks.relay_events',
+        'schedule': timedelta(minutes=1),
+    }
+
+if not os.environ.get('GARELAY_NO_SERVER'):
+    CELERYBEAT_SCHEDULE['register-events'] = {
         'task': 'garelay.server.tasks.register_events',
         'schedule': timedelta(minutes=1),
-    },
-}
+    }
+
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
