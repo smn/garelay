@@ -1,13 +1,26 @@
 import json
 
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, JsonResponse
+from django.utils import timezone
+
+from garelay.tracker.models import TrackingEvent
 
 
 def server(request):
     try:
-        tracking_event = json.loads(request.body)
+        tracking_events = json.loads(request.body)
     except ValueError:
         return HttpResponseBadRequest()
 
-    TrackingEvent.objects.clone(tracking_event)
-    # tracking_event.delay()
+    response = []
+    for tracking_event in tracking_events:
+        record, _ = TrackingEvent.objects.get_or_create(
+            uuid=tracking_event['uuid'])
+        record.update_fields(tracking_event)
+        record.status = 'captured'
+        record.relayed_at = timezone.now()
+        record.save()
+        response.append({
+            'uuid': record.uuid,
+        })
+    return JsonResponse(response, safe=False)
