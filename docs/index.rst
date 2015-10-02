@@ -6,6 +6,10 @@
 Google Analytics Relay
 ======================
 
+.. image:: https://upload.wikimedia.org/wikipedia/commons/7/76/Guglielmo_Marconi_1901_wireless_signal.jpg
+  :alt: first short wave transmissions over a long distance
+  :target: https://en.wikipedia.org/wiki/International_broadcasting
+
 Capture pageviews in a somewhat offline capacity. Store them temporarily
 and relay them as batches to an upstream server (when connectivity is
 available). The upstream server then registers these page views with
