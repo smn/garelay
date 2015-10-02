@@ -22,7 +22,7 @@ deploy:
   user: Praekelt
   password:
     # NOTE: See http://docs.travis-ci.com/user/encryption-keys/ for more info.
-    secure: "insert encrypted pypi password here"
+    secure: "gzQ7XW3vRh3Ty6n6xXdPNFAzDv071NE0J4DFDfYldbdznZq90trYHf9nRhVtTTpxXTX1BMTI5RRqmAeyjmLFx9U+B9LMHgizRrbTxXWftMyVS82yUeaNVZrcXomr7q2UFlvzxt6LF0g+sW74gbIMH1JQkpxKRR8XL3wfAi5g3CvtylpBGLawK6TDYA2i7PnwDo1YV3W31Rntqfp1GzYwIj7JPGtxilPAHaGpezxbozExkOW+/Y+r0HNx1zTtVocHSGJN8s1FKOfOkzlLaIPR/q0XsRpwTL157/CyGK0Cd9JLgLATQe/FgmSpzDXAKZ4UuVQFOZtDfWBr8PVlCRArU245MQVA2t/3lbaQMHVFMLl37rGM7LfGporMjcxT0QChZWZmFald9FfhDuHiCKXpnre1LTQRc59zbnDyRtrQV4D2pM0CygXFRhdz3+vuO68XbCyQOOfiuYT3dvhNYQ9ypsed43cxpls/Sh+A5WD2TCO7/zDKhCXkYCG9AtgeBlCVwpZMWJbFCDaMdlD1LQitF/9O+BXjCxEZg19LaUa5IHsbYtHy6teatPB9yjTYwUnVHNjc0kNdk5TpIJIMX4GxAUOOeFbULeTKbWXV3T9pJx7hKU6t8GuL5JwCZ41d2e/DKZcLDWg5TdLWYguQmDl9aul2iTJqAU8s5Kxiuy2c4Ms="
   on:
     tags: true
     all_branches: true

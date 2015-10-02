@@ -8,6 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
+from datetime import timedelta
 from os.path import abspath, dirname, join
 from django.conf import global_settings
 from django.utils.translation import ugettext_lazy as _
@@ -40,6 +41,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'garelay',
+    'garelay.tracker',
+    'garelay.server',
 
     'raven.contrib.django.raven_compat',
 )
@@ -81,6 +84,22 @@ DATABASES = {'default': dj_database_url.config(
 #     }
 # }
 
+# CELERY stuff
+BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERYBEAT_SCHEDULE = {
+    'register-events': {
+        'task': 'garelay.server.tasks.register_events',
+        'schedule': timedelta(minutes=1),
+    },
+}
+
+# GARELAY stuff
+GARELAY_SERVER = 'http://www.example.org/server'
+GARELAY_CREDENTIALS = ('username', 'password')
+GARELAY_RELAY_BATCH_SIZE = 100
+GARELAY_REGISTER_BATCH_SIZE = 1000
+GARELAY_RELAY_TIMEOUT = 10
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
