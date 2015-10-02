@@ -56,7 +56,7 @@ class TrackingEvent(models.Model):
             logging.warning('Queue time exceeds 4 hours, '
                             'may be ignored by Google Analytics.')
 
-        data['qt'] = delta.total_seconds() * 10000  # GA requires milliseconds
+        data['qt'] = delta.total_seconds() * 1000  # GA requires milliseconds
 
         tracker.send('pageview', data)
         self.registered_at = timezone.now()
