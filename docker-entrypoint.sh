@@ -70,7 +70,7 @@ redirect_stderr = true
 EOM
 
 echo "=> Reloading Supervisord"
-supervisord reload
+supervisorctl reload
 
 echo "=> Tailing logs"
 multitail --mergeall --basename -f /var/log/supervisor/*.log
