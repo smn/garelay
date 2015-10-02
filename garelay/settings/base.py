@@ -8,6 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
+from datetime import timedelta
 from os.path import abspath, dirname, join
 from django.conf import global_settings
 from django.utils.translation import ugettext_lazy as _
@@ -82,6 +83,16 @@ DATABASES = {'default': dj_database_url.config(
 #         'CONN_MAX_AGE': 600,
 #     }
 # }
+
+# CELERY stuff
+BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERYBEAT_SCHEDULE = {
+    'register-events': {
+        'task': 'garelay.server.tasks.register_events',
+        'schedule': timedelta(minutes=10),
+    },
+}
 
 
 # Internationalization

@@ -46,7 +46,7 @@ class ViewsTest(TestCase):
             'ul': 'en-gb',
             'dr': '/foo',
             'uip': '127.0.0.1',
-            'path': '',
+            'dp': '',
         })
         self.assertEqual(TrackingEvent.objects.count(), 1)
 
@@ -58,5 +58,5 @@ class ViewsTest(TestCase):
         self.client.get(path)
         [event] = TrackingEvent.objects.all()
         self.assertEqual(
-            json.loads(event.data)['path'],
+            json.loads(event.data)['dp'],
             '/foo/bar/baz.html')

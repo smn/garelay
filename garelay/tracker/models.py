@@ -1,6 +1,12 @@
 import json
+import logging
+
 from uuid import uuid4
+
 from django.db import models
+from django.utils import timezone
+
+from UniversalAnalytics import Tracker
 
 
 class TrackingEvent(models.Model):
@@ -34,3 +40,21 @@ class TrackingEvent(models.Model):
             (field.name, getattr(self, field.name))
             for field in self._meta.fields
             if field.name not in ['id', 'status'])
+
+    def register(self):
+        tracker = Tracker.create(self.tracking_id,
+                                 client_id=self.client_id,
+                                 user_agent=self.user_agent)
+        data = json.loads(self.data)
+
+        # back date
+        delta = timezone.now() - self.captured_at
+        if delta.seconds > (4 * 60 * 60):
+            logging.warning('Queue time exceeds 4 hours, '
+                            'may be ignored by Google Analytics.')
+
+        data['qt'] = delta.total_seconds() * 10000  # GA requires milliseconds
+
+        tracker.send('pageview', data)
+        self.registered_at = timezone.now()
+        self.status = 'registered'
