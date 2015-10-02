@@ -9,10 +9,19 @@ from django.contrib import admin
 urlpatterns = patterns(
     '',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^', include('garelay.tracker.urls')),
-    url(r'^', include('garelay.server.urls')),
 )
 
+if not os.environment.get('GARELAY_NO_TRACKER'):
+    urlpatterns += patterns(
+        '',
+        url(r'^', include('garelay.tracker.urls')),
+    )
+
+if not os.environment.get('GARELAY_NO_SERVER'):
+    urlpatterns += patterns(
+        '',
+        url(r'^', include('garelay.server.urls')),
+    )
 
 if settings.DEBUG:
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
