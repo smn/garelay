@@ -94,6 +94,12 @@ CELERYBEAT_SCHEDULE = {
     },
 }
 
+# GARELAY stuff
+GARELAY_SERVER = 'http://www.example.org/server'
+GARELAY_CREDENTIALS = ('username', 'password')
+GARELAY_RELAY_BATCH_SIZE = 100
+GARELAY_REGISTER_BATCH_SIZE = 1000
+GARELAY_RELAY_TIMEOUT = 10
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

@@ -31,5 +31,6 @@ def tracker(request, tracking_id, path):
         client_id=client_id,
         user_agent=request.META.get('HTTP_USER_AGENT') or '',
         data=json.dumps(data),
-        captured_at=timezone.now())
+        captured_at=timezone.now(),
+        status='captured')
     return HttpResponse(PIXEL_GIF_DATA, content_type='image/gif')

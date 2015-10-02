@@ -42,6 +42,7 @@ class ViewsTest(TestCase):
         self.assertEqual(event.tracking_id, 'UA-F00-1')
         self.assertEqual(event.client_id, self.client.session['tracker_uuid'])
         self.assertEqual(event.user_agent, 'The Agent')
+        self.assertEqual(event.status, 'captured')
         self.assertEqual(json.loads(event.data), {
             'ul': 'en-gb',
             'dr': '/foo',
