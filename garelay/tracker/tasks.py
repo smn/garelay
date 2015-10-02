@@ -29,6 +29,5 @@ def relay_events():
         # This will kill the task if we don't have Internet connectivity
         response.raise_for_status()
         uuids = [event['uuid'] for event in response.json()]
-        print uuids
         TrackingEvent.objects.filter(uuid__in=uuids).update(
             status='relayed', relayed_at=timezone.now())

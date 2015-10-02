@@ -4,13 +4,15 @@ import logging
 from uuid import uuid4
 
 from django.db import models
+from django.db.models import signals
 from django.utils import timezone
+from django.dispatch import receiver
 
 from UniversalAnalytics import Tracker
 
 
 class TrackingEvent(models.Model):
-    uuid = models.CharField(max_length=255, default=lambda: uuid4().hex)
+    uuid = models.CharField(max_length=255)
     tracking_id = models.CharField(max_length=255)
     client_id = models.CharField(max_length=255)
     user_agent = models.TextField()
@@ -61,3 +63,9 @@ class TrackingEvent(models.Model):
         tracker.send('pageview', data)
         self.registered_at = timezone.now()
         self.status = 'registered'
+
+
+@receiver(signals.pre_save, sender=TrackingEvent)
+def tracking_event_auto_uuid(sender, instance, **kwargs):
+    if not instance.uuid:
+        instance.uuid = uuid4().hex
