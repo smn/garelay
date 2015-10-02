@@ -12,16 +12,16 @@ class CommandsTest(TestCase):
         cmd = relay_events.Command()
         cmd.stdout = StringIO()
         cmd.handle()
-        self.assertEqual(cmd.stdout.getvalue(),
-                         'Relaying 0 events in batches of %s.\nDone.\n' % (
-                              settings.GARELAY_RELAY_BATCH_SIZE,
-                         ))
+        self.assertEqual(
+            cmd.stdout.getvalue(),
+            'Relaying 0 events in batches of %s.\nDone.\n' % (
+                settings.GARELAY_RELAY_BATCH_SIZE,))
 
     def test_register_events(self):
         cmd = register_events.Command()
         cmd.stdout = StringIO()
         cmd.handle()
-        self.assertEqual(cmd.stdout.getvalue(),
-                         'Registering 0 events in batches of %s.\nDone.\n' % (
-                              settings.GARELAY_REGISTER_BATCH_SIZE,
-                         ))
+        self.assertEqual(
+            cmd.stdout.getvalue(),
+            'Registering 0 events in batches of %s.\nDone.\n' % (
+                settings.GARELAY_REGISTER_BATCH_SIZE,))
