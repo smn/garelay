@@ -11,13 +11,13 @@ urlpatterns = patterns(
     url(r'^admin/', include(admin.site.urls)),
 )
 
-if not os.environment.get('GARELAY_NO_TRACKER'):
+if not os.environ.get('GARELAY_NO_TRACKER'):
     urlpatterns += patterns(
         '',
         url(r'^', include('garelay.tracker.urls')),
     )
 
-if not os.environment.get('GARELAY_NO_SERVER'):
+if not os.environ.get('GARELAY_NO_SERVER'):
     urlpatterns += patterns(
         '',
         url(r'^', include('garelay.server.urls')),
