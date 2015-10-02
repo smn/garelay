@@ -8,7 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
-import os.environ
+import os
 from datetime import timedelta
 from os.path import abspath, dirname, join
 from django.conf import global_settings
