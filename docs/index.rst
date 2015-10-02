@@ -15,7 +15,36 @@ and relay them as batches to an upstream server (when connectivity is
 available). The upstream server then registers these page views with
 Google Analytics.
 
-This works using a embedding a 1x1 pixel GIF image.
+This works using a embedding a 1x1 pixel GIF image::
+
+  +-------------+
+  | Offline     |
+  | Phone       |
+  +-------------+
+      |
+    Local HTTP request
+      |
+      \/
+  +-------------+
+  | Application |
+  +-------------+
+      |
+    timestamped pageview
+      |
+      \/
+  +--------+                       +--------------+
+  | Relay  | -> Batches relayed -> | Registration |
+  | Server |    over terrible      | Server       |
+  +--------+    Internets          +--------------+
+                                          |
+                                        Back dated Google Analytics
+                                        page view registration
+                                          |
+                                          \/
+                                      +-----------+
+                                      | Google    |
+                                      | Analytics |
+                                      +-----------+
 
 .. note::   Events are submitted to Google Analytics with a ``queue time``
             parameter set. Google Analytics gives no guarantees about events
