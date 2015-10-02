@@ -1,6 +1,11 @@
 from django.test import TestCase
 from django.utils import timezone
+from datetime import timedelta
 from ..models import TrackingEvent
+
+from mock import patch
+
+from UniversalAnalytics import Tracker
 
 
 class ModelTest(TestCase):
@@ -11,7 +16,7 @@ class ModelTest(TestCase):
             'client_id': 'client_id',
             'user_agent': 'user_agent',
             'data': {
-                'foo': 'bar'
+                'dt': 'Document Title'
             },
             'created_at': timezone.now(),
             'updated_at': timezone.now(),
@@ -44,3 +49,19 @@ class ModelTest(TestCase):
         self.assertNotEqual(
             event.to_dict(),
             fields)
+
+    @patch.object(Tracker.Tracker, 'send')
+    def test_register(self, mocked_send):
+        queue_time = timezone.now() - timedelta(minutes=10)
+        event = TrackingEvent.objects.create()
+        self.update_event_fields(event, captured_at=queue_time)
+        event.save()
+        event.register()
+        [call] = mocked_send.call_args_list
+        [args, kwargs] = call
+        self.assertEqual(kwargs, {})
+        hittype, data = args
+        self.assertEqual(hittype, 'pageview')
+        self.assertEqual(data['dt'], 'Document Title')
+        # Allowing for some minimal CPU time
+        self.assertTrue(10 * 60 * 1000 < int(data['qt']) < 10.1 * 60 * 1000)

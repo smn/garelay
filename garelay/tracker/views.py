@@ -20,7 +20,7 @@ def get_tracker_uuid(request):
 def tracker(request, tracking_id, path):
     client_id = get_tracker_uuid(request)
     data = {
-        'path': path,
+        'dp': path,
         'uip': request.META.get('REMOTE_ADDR') or '',
         'dr': request.META.get('HTTP_REFERER') or '',
         'ul': request.META.get('HTTP_ACCEPT_LANGUAGE') or '',
