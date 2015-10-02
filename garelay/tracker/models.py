@@ -26,6 +26,9 @@ class TrackingEvent(models.Model):
         ('registered', 'Registered')
     ), null=True)
 
+    class Meta:
+        ordering = ['created_at']
+
     def update_fields(self, data):
         self.tracking_id = data['tracking_id']
         self.client_id = data['client_id']

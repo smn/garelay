@@ -90,7 +90,7 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERYBEAT_SCHEDULE = {
     'register-events': {
         'task': 'garelay.server.tasks.register_events',
-        'schedule': timedelta(minutes=10),
+        'schedule': timedelta(minutes=1),
     },
 }
 
