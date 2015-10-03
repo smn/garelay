@@ -2,11 +2,30 @@
 
 set -e
 
+if [ "$1" = 'tracker' ]; then
+    DJANGO_SETTINGS_MODULE=garelay.tracker.settings
+elif [ "$1" = 'server' ]; then
+    DJANGO_SETTINGS_MODULE=garelay.server.settings
+else
+    cat <<-EOM
+
+
+Google Analytics Relay not starting!
+====================================
+
+No argument provided, please specify 'tracker' or 'server'
+as the first positional argument.
+
+Usage: docker run garelay:$GARELAY_VERSION [ tracker | server ]
+
+EOM
+    exit
+fi
+
 echo "=> Creating database"
 mkdir -p /garelay && \
     cd /garelay && \
-    django-admin migrate --noinput --settings=garelay.settings.production
-
+    django-admin migrate --noinput --settings=$DJANGO_SETTINGS_MODULE
 
 # Create main Supervisord config file
 echo "=> Creating supervisord config"
@@ -59,7 +78,7 @@ echo "=> Creating Tracker supervisor config"
 cat > /etc/supervisor/conf.d/garelay.conf <<-EOM
 [program:garelay]
 command = gunicorn --bind 0.0.0.0:${GARELAY_PORT} garelay.wsgi
-environment = DJANGO_SETTINGS_MODULE="garelay.settings.production"
+environment = DJANGO_SETTINGS_MODULE="$DJANGO_SETTINGS_MODULE"
 directory = /garelay
 redirect_stderr = true
 EOM
@@ -69,7 +88,7 @@ echo "=> Creating Celery supervisor config"
 cat > /etc/supervisor/conf.d/celery.conf <<-EOM
 [program:celery]
 command = celery worker -A garelay -B --loglevel=INFO
-environment = DJANGO_SETTINGS_MODULE="garelay.settings.production",GARELAY_SERVER=${GARELAY_SERVER}
+environment = DJANGO_SETTINGS_MODULE="$DJANGO_SETTINGS_MODULE",GARELAY_SERVER=${GARELAY_SERVER}
 directory = /garelay
 redirect_stderr = true
 EOM
