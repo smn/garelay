@@ -103,11 +103,18 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
 # GARELAY stuff
-GARELAY_SERVER = 'http://www.example.org/server'
-GARELAY_CREDENTIALS = ('username', 'password')
-GARELAY_RELAY_BATCH_SIZE = 100
-GARELAY_REGISTER_BATCH_SIZE = 1000
-GARELAY_RELAY_TIMEOUT = 10
+from os import environ
+GARELAY_SERVER = (
+    environ.get('GARELAY_SERVER') or 'http://www.example.org/server/')
+GARELAY_CREDENTIALS = (
+    environ.get('GARELAY_CREDENTIALS').split(':')
+    if 'GARELAY_CREDENTIALS' in environ else None)
+GARELAY_RELAY_BATCH_SIZE = int(
+    environ.get('GARELAY_RELAY_BATCH_SIZE') or 100)
+GARELAY_REGISTER_BATCH_SIZE = int(
+    environ.get('GARELAY_REGISTER_BATCH_SIZE') or 1000)
+GARELAY_RELAY_TIMEOUT = int(
+    environ.get('GARELAY_RELAY_TIMEOUT') or 10)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

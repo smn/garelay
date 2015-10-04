@@ -12,6 +12,6 @@ ENV GARELAY_SERVER http://www.example.com/server/
 ENV GARELAY_ROOT=/garelay
 ENV DATABASE_URL sqlite:///$GARELAY_ROOT/db.sqlite3
 COPY ./docker-entrypoint.sh /
-EXPOSE 8000
+EXPOSE $GARELAY_PORT
 VOLUME $GARELAY_ROOT
 ENTRYPOINT ["./docker-entrypoint.sh"]
