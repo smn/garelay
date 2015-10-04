@@ -55,6 +55,7 @@ Proof
 
 .. image:: ./garelay.gif
   :alt: server, tracker & google analytics results
+  :target: ./garelay.gif
 
 Embedding Directly
 ------------------
