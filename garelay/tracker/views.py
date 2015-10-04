@@ -4,6 +4,7 @@ import json
 from django.http import HttpResponse
 from django.views.decorators.cache import never_cache
 from django.utils import timezone
+from django.conf import settings
 
 from .models import TrackingEvent
 
@@ -18,6 +19,7 @@ def get_tracker_uuid(request):
 
 @never_cache
 def tracker(request, tracking_id, path):
+    request.session.set_expiry(settings.GARELAY_SESSION_AGE)
     client_id = get_tracker_uuid(request)
     data = {
         'dp': path,
