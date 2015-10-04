@@ -15,13 +15,14 @@ def server(request):
 
     response = []
     for tracking_event in tracking_events:
-        record, _ = TrackingEvent.objects.get_or_create(
+        record, created = TrackingEvent.objects.get_or_create(
             uuid=tracking_event['uuid'])
-        record.update_fields(tracking_event)
-        record.status = 'captured'
-        record.relayed_at = timezone.now()
-        record.save()
-        response.append({
-            'uuid': record.uuid,
-        })
+        if created:
+            record.update_fields(tracking_event)
+            record.status = 'captured'
+            record.relayed_at = timezone.now()
+            record.save()
+            response.append({
+                'uuid': record.uuid,
+            })
     return JsonResponse(response, safe=False)

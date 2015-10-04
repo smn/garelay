@@ -50,6 +50,12 @@ This works using a embedding a 1x1 pixel GIF image::
             parameter set. Google Analytics gives no guarantees about events
             that are submitted with a queue time of more than 4 hours ago.
 
+Proof
+-----
+
+.. image:: ./garelay.gif
+  :alt: server, tracker & google analytics results
+  :target: ./_images/garelay.gif
 
 Embedding Directly
 ------------------
