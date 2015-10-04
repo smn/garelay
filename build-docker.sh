@@ -6,6 +6,6 @@ docker build -t garelay:`cat VERSION` . && \
         -p 8000:8000 \
         -e GARELAY_VERSION=`cat VERSION` \
         -e GARELAY_SERVER=http://localhost:8000/server \
-        --name garelay \
+        --name garelay-$1 \
         -v /tmp:/garelay/ \
-        garelay:`cat VERSION` $@
+        garelay:`cat VERSION` $1
