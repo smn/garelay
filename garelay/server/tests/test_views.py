@@ -1,4 +1,5 @@
 import json
+from datetime import timedelta
 
 from django.test import TestCase
 from django.test.client import Client
@@ -13,10 +14,8 @@ class ServerTest(TestCase):
 
     def setUp(self):
         self.client = Client()
-
-    def test_tracking_event(self):
-        event = TrackingEvent.objects.create(uuid='the-uuid')
-        event.update_fields({
+        self.event = {
+            'uuid': 'the-uuid',
             'tracking_id': 'tracking_id',
             'client_id': 'client_id',
             'user_agent': 'user_agent',
@@ -28,18 +27,43 @@ class ServerTest(TestCase):
             'captured_at': timezone.now(),
             'relayed_at': None,
             'registered_at': None,
-        })
-        event.save()
-        self.assertFalse(event.relayed_at)
-        self.assertFalse(event.registered_at)
-        self.assertFalse(event.status)
+        }
+
+    def test_tracking_event(self):
         response = self.client.post(
             reverse('server'),
-            data=json.dumps([event.to_dict()], cls=DjangoJSONEncoder),
+            data=json.dumps([self.event], cls=DjangoJSONEncoder),
+            content_type='application/json')
+        data = json.loads(response.content)
+        self.assertEqual(data, [{'uuid': 'the-uuid'}])
+        event_record = TrackingEvent.objects.get(uuid=self.event['uuid'])
+        self.assertTrue(event_record.relayed_at)
+        self.assertFalse(event_record.registered_at)
+        self.assertEqual(event_record.status, 'captured')
+
+    def test_tracking_event_idempotence(self):
+        response = self.client.post(
+            reverse('server'),
+            data=json.dumps([self.event], cls=DjangoJSONEncoder),
             content_type='application/json')
         data = json.loads(response.content)
         self.assertTrue(data, [{'uuid': 'the-uuid'}])
-        reloaded_event = TrackingEvent.objects.get(pk=event.pk)
-        self.assertTrue(reloaded_event.relayed_at)
-        self.assertFalse(reloaded_event.registered_at)
-        self.assertEqual(reloaded_event.status, 'captured')
+
+        cloned_event = self.event.copy()
+        cloned_event['captured_at'] = (
+            cloned_event['captured_at'] - timedelta(days=10))
+
+        response = self.client.post(
+            reverse('server'),
+            data=json.dumps([cloned_event], cls=DjangoJSONEncoder),
+            content_type='application/json')
+
+        data = json.loads(response.content)
+        self.assertEqual(data, [])
+
+        event_record = TrackingEvent.objects.get(uuid=self.event['uuid'])
+        self.assertEqual(event_record.captured_at.day,
+                         self.event['captured_at'].day)
+        self.assertTrue(event_record.relayed_at)
+        self.assertFalse(event_record.registered_at)
+        self.assertEqual(event_record.status, 'captured')
