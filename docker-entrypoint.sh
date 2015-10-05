@@ -97,4 +97,4 @@ echo "=> Starting Supervisord"
 supervisord -c /etc/supervisord.conf
 
 echo "=> Tailing logs"
-multitail --mergeall --basename -f /var/log/supervisor/*.log
+tail -qF /var/log/supervisor/*.log
