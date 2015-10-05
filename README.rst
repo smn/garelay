@@ -6,5 +6,4 @@ allows for it.
 
 ::
 
-    $ docker pull sdehaan/garelay
-    $ docker run sdehaan/garelay [ tracker | server ]
+    $ docker run -it sdehaan/garelay [ tracker | server ]
