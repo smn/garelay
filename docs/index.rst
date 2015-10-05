@@ -110,8 +110,8 @@ Overriding Default Values
 Any of the values specified as extra querystring parameters will override
 the defaults.
 
-Installation
-------------
+Pip Installation
+----------------
 
 ::
 
@@ -119,22 +119,25 @@ Installation
   $ source ve/bin/activate
   (ve)$ pip install garelay
 
-Run the Google Analytics registration server::
+Run the Django registration server::
 
-  (ve)$ django-admin runserver --settings=garelay.settings.production
+  (ve)$ django-admin runserver --settings=garelay.server.settings
 
-Run the Google Analytics registration server::
+Run the Google Analytics tracker server::
 
-  (ve)$ django-admin runserver --settings=garelay.settings.production
+  (ve)$ django-admin runserver --settings=garelay.tracker.production
+
+If you don't want to have to rely on Celery running you can schedule
+the tasks to be run via ``cron`` as well from the command line.
 
 To relay the pageview events from the relay server to the registration server::
 
   (ve)$ GARELAY_SERVER=http://www.example.com/ django-admin \
-    --settings=garelay.settings.production \
+    --settings=garelay.tracker.settings \
     relay_events
 
 To register the relayed pageview events at Google Analytics::
 
   (ve)$ django-admin \
-    --settings=garelay.settings.production \
+    --settings=garelay.server.settings \
     register_events
