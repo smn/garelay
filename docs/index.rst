@@ -57,6 +57,16 @@ Proof
   :alt: server, tracker & google analytics results
   :target: ./_images/garelay.gif
 
+
+Docker
+------
+
+::
+
+  $ docker pull sdehaan/garelay
+  $ docker run sdehaan/garelay [ tracker | server ]
+
+
 Embedding Directly
 ------------------
 ::
