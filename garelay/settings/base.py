@@ -95,6 +95,10 @@ CELERYBEAT_SCHEDULE = {
     'register-events': {
         'task': 'garelay.server.tasks.register_events',
         'schedule': timedelta(minutes=1),
+    },
+    'cleanup-events': {
+        'task': 'garelay.tasks.cleanup_events',
+        'schedule': timedelta(days=1),
     }
 }
 
@@ -115,6 +119,12 @@ GARELAY_REGISTER_BATCH_SIZE = int(
     environ.get('GARELAY_REGISTER_BATCH_SIZE') or 1000)
 GARELAY_RELAY_TIMEOUT = int(
     environ.get('GARELAY_RELAY_TIMEOUT') or 10)
+GARELAY_SESSION_AGE = int(
+    environ.get('GARELAY_SESSION_AGE') or
+    timedelta(days=365 * 2).total_seconds())
+GARELAY_EVENT_EXPIRY = int(
+    environ.get('GARELAY_EVENT_EXPIRY') or
+    timedelta(days=7).total_seconds())
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
