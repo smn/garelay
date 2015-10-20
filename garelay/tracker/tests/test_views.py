@@ -1,4 +1,5 @@
 import json
+from datetime import timedelta
 
 from django.test import TestCase
 from django.test.client import Client
@@ -41,6 +42,10 @@ class ViewsTest(TestCase):
         self.assertFalse(event.registered_at)
         self.assertEqual(event.tracking_id, 'UA-F00-1')
         self.assertEqual(event.client_id, self.client.session['tracker_uuid'])
+        self.assertEqual(
+            timedelta(seconds=self.client.session.get_expiry_age()).days,
+            365 * 2,  # default session age is set to two years
+        )
         self.assertEqual(event.user_agent, 'The Agent')
         self.assertEqual(event.status, 'captured')
         self.assertEqual(json.loads(event.data), {
