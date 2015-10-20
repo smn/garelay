@@ -6,7 +6,6 @@ from ..settings.base import *
 DEBUG = False
 TEMPLATE_DEBUG = False
 
-
 ROOT_URLCONF = 'garelay.server.urls'
 
 BROKER_URL = 'redis://localhost:6379/0'
@@ -16,6 +15,10 @@ CELERYBEAT_SCHEDULE = {
         'task': 'garelay.server.tasks.register_events',
         'schedule': timedelta(minutes=1),
     },
+    'cleanup-events': {
+        'task': 'garelay.tasks.cleanup_events',
+        'schedule': timedelta(days=1),
+    }
 }
 
 try:

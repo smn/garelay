@@ -15,6 +15,10 @@ CELERYBEAT_SCHEDULE = {
         'task': 'garelay.tracker.tasks.relay_events',
         'schedule': timedelta(minutes=1),
     },
+    'cleanup-events': {
+        'task': 'garelay.tasks.cleanup_events',
+        'schedule': timedelta(days=1),
+    }
 }
 
 try:
